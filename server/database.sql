@@ -1,6 +1,6 @@
 -- Database Schema
-CREATE DATABASE IF NOT EXISTS flipkart_clone;
-USE flipkart_clone;
+-- CREATE DATABASE IF NOT EXISTS flipkart_clone;
+-- USE flipkart_clone;
 
 -- Drop tables in correct order to avoid foreign key constraints
 DROP TABLE IF EXISTS product_images;
