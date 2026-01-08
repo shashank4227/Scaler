@@ -23,7 +23,7 @@
 4.  **Build Command**: `npm run build`
 5.  **Output Directory**: `dist`
 6.  **Environment Variables**:
-    - `VITE_API_URL`: The URL of your deployed backend (e.g., `https://your-app.onrender.com`)
+    - `VITE_API_URL`: The URL of your deployed backend (e.g., `https://your-app.onrender.com`). **IMPORTANT**: Do NOT add a trailing slash `/`.
 
 ## Database (MySQL)
 
