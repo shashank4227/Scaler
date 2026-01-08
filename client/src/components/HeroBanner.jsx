@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-const banners = [
     {
         id: 1,
         title: 'Beds',
         subtitle: 'From ₹8,999',
         description: 'Wooden Street, Sleepyhead & more',
         image: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?auto=format&fit=crop&w=800&q=80',
-        bgColor: 'from-blue-500 to-blue-600'
+        bgColor: 'from-blue-500 to-blue-600',
+        hexColor: '#2563eb' // fallback blue-600
     },
     {
         id: 2,
@@ -15,7 +15,8 @@ const banners = [
         subtitle: 'From ₹6,999',
         description: 'Samsung, Realme, Poco & more',
         image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80',
-        bgColor: 'from-purple-500 to-purple-600'
+        bgColor: 'from-purple-500 to-purple-600',
+        hexColor: '#9333ea' // fallback purple-600
     },
     {
         id: 3,
@@ -23,7 +24,8 @@ const banners = [
         subtitle: 'Up to 80% Off',
         description: 'Headphones, Speakers & more',
         image: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80',
-        bgColor: 'from-green-500 to-green-600'
+        bgColor: 'from-green-500 to-green-600',
+        hexColor: '#16a34a' // fallback green-600
     }
 ];
 
@@ -53,10 +55,12 @@ const HeroBanner = () => {
         <div className="relative overflow-hidden">
             {/* Main Banner */}
             <div
-                className={`relative bg-gradient-to-r ${banners[currentSlide].bgColor} py-8 px-4 min-h-[280px] transition-all duration-500`}
+                className={`relative py-8 px-4 min-h-[280px] transition-all duration-500 text-white`}
                 style={{
-                    backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'10\' cy=\'10\' r=\'4\' fill=\'rgba(255,255,255,0.1)\'/%3E%3Ccircle cx=\'85\' cy=\'35\' r=\'6\' fill=\'rgba(255,255,255,0.1)\'/%3E%3Ccircle cx=\'45\' cy=\'85\' r=\'4\' fill=\'rgba(255,255,255,0.1)\'/%3E%3C/svg%3E")',
-                    backgroundSize: '300px'
+                    backgroundColor: banners[currentSlide].hexColor,
+                    backgroundImage: `linear-gradient(to right, ${banners[currentSlide].hexColor}, ${banners[currentSlide].hexColor}dd), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='10' cy='10' r='4' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='85' cy='35' r='6' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='45' cy='85' r='4' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E")`,
+                    backgroundSize: 'cover, 300px',
+                    backgroundBlendMode: 'overlay'
                 }}
             >
                 {/* Decorative elements - Re-positioned and simplified for better responsiveness */}
