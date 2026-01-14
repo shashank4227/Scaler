@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
-const StepHeader = ({ number, title, isActive, isComplete, children, onChangeStep }) => (
+const StepHeader = ({ number, title, isActive, isComplete, children, onChangeStep, summary }) => (
     <div className="bg-white shadow-sm mb-3">
         <div className={`flex items-center gap-4 p-4 ${isActive ? 'bg-primary' : ''}`}>
             <span className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold ${isActive ? 'bg-white text-primary' : 'bg-gray-100 text-primary'}`}>
@@ -27,9 +28,14 @@ const StepHeader = ({ number, title, isActive, isComplete, children, onChangeSte
         )}
         {isComplete && !isActive && (
             <div className="px-4 pb-4 text-sm text-gray-600">
-                {number === 1 && <span>John Doe · +91 9999999999</span>}
-                {number === 2 && children && children.props && children.props.address && (
-                    <span>{children.props.address.name}, {children.props.address.address}, {children.props.address.city}, {children.props.address.state} - {children.props.address.pincode}</span>
+                {summary ? (
+                    <span>{summary}</span>
+                ) : (
+                    <>
+                        {number === 2 && children && children.props && children.props.address && (
+                            <span>{children.props.address.name}, {children.props.address.address}, {children.props.address.city}, {children.props.address.state} - {children.props.address.pincode}</span>
+                        )}
+                    </>
                 )}
             </div>
         )}
@@ -39,8 +45,21 @@ const StepHeader = ({ number, title, isActive, isComplete, children, onChangeSte
 const CheckoutPage = () => {
     const navigate = useNavigate();
     const { cartItems, totalAmount, clearCart } = useCart();
-    // Start at step 2 (Address) since we simulate a logged-in user
-    const [step, setStep] = useState(2);
+    const { user } = useAuth();
+    
+    // Start at step 1 (Login/Contact) to verify details
+    const [step, setStep] = useState(1);
+    
+    const [contactName, setContactName] = useState('');
+    const [contactPhone, setContactPhone] = useState('');
+
+    useEffect(() => {
+        if (user) {
+            setContactName(user.name || '');
+            setContactPhone(user.phone || ''); // If we had phone in auth
+        }
+    }, [user]);
+
     const [address, setAddress] = useState({
         name: '',
         phone: '',
@@ -97,22 +116,48 @@ const CheckoutPage = () => {
                     {/* Left: Checkout Steps */}
                     <div className="flex-1">
                         {/* Step 1: Login */}
+                        {/* Step 1: Login */}
                         <StepHeader 
                             number={1} 
-                            title="Login" 
+                            title="Login & Contact Details" 
                             isActive={step === 1} 
                             isComplete={step > 1}
                             onChangeStep={setStep}
+                            summary={`${contactName} · ${contactPhone || 'No phone provided'}`}
                         >
-                            <div className="flex flex-col gap-2">
-                                <div className="text-sm">
-                                    <span className="text-gray-500">Name:</span> <span className="font-medium">John Doe</span>
+                            <div className="flex flex-col gap-4 max-w-sm">
+                                <div>
+                                    <label className="text-gray-500 text-sm block mb-1">Name</label>
+                                    <input 
+                                        type="text" 
+                                        value={contactName}
+                                        onChange={(e) => setContactName(e.target.value)}
+                                        className="border p-2 w-full rounded-sm text-sm focus:border-primary outline-none"
+                                        placeholder="Enter Name"
+                                    />
                                 </div>
-                                <div className="text-sm">
-                                    <span className="text-gray-500">Phone:</span> <span className="font-medium">+91 9999999999</span>
+                                <div>
+                                    <label className="text-gray-500 text-sm block mb-1">Phone Mobile Number</label>
+                                    <input 
+                                        type="tel" 
+                                        value={contactPhone}
+                                        onChange={(e) => setContactPhone(e.target.value)}
+                                        className="border p-2 w-full rounded-sm text-sm focus:border-primary outline-none"
+                                        placeholder="Enter Phone Number"
+                                    />
                                 </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                    Logged in as <span className="font-medium">{user?.email}</span>
+                                </div>
+
                                 <button 
-                                    onClick={() => setStep(2)}
+                                    onClick={() => {
+                                        if (contactName && contactPhone) {
+                                            setStep(2);
+                                        } else {
+                                            alert("Please enter Name and Phone Number");
+                                        }
+                                    }}
                                     className="bg-[#fb641b] text-white font-bold uppercase px-8 py-3 shadow hover:shadow-lg mt-2 w-fit"
                                 >
                                     Continue Checkout
@@ -188,11 +233,42 @@ const CheckoutPage = () => {
                                             onChange={e => setAddress(prev => ({ ...prev, state: e.target.value }))}
                                         >
                                             <option value="">--Select State--</option>
-                                            <option value="Karnataka">Karnataka</option>
-                                            <option value="Maharashtra">Maharashtra</option>
-                                            <option value="Tamil Nadu">Tamil Nadu</option>
-                                            <option value="Delhi">Delhi</option>
+                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                            <option value="Assam">Assam</option>
+                                            <option value="Bihar">Bihar</option>
+                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                            <option value="Goa">Goa</option>
                                             <option value="Gujarat">Gujarat</option>
+                                            <option value="Haryana">Haryana</option>
+                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                            <option value="Jharkhand">Jharkhand</option>
+                                            <option value="Karnataka">Karnataka</option>
+                                            <option value="Kerala">Kerala</option>
+                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                            <option value="Maharashtra">Maharashtra</option>
+                                            <option value="Manipur">Manipur</option>
+                                            <option value="Meghalaya">Meghalaya</option>
+                                            <option value="Mizoram">Mizoram</option>
+                                            <option value="Nagaland">Nagaland</option>
+                                            <option value="Odisha">Odisha</option>
+                                            <option value="Punjab">Punjab</option>
+                                            <option value="Rajasthan">Rajasthan</option>
+                                            <option value="Sikkim">Sikkim</option>
+                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                            <option value="Telangana">Telangana</option>
+                                            <option value="Tripura">Tripura</option>
+                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                            <option value="Uttarakhand">Uttarakhand</option>
+                                            <option value="West Bengal">West Bengal</option>
+                                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                            <option value="Chandigarh">Chandigarh</option>
+                                            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                            <option value="Delhi">Delhi</option>
+                                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                            <option value="Ladakh">Ladakh</option>
+                                            <option value="Lakshadweep">Lakshadweep</option>
+                                            <option value="Puducherry">Puducherry</option>
                                         </select>
                                     </div>
                                     <div className="flex items-center gap-4">

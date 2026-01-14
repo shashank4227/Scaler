@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import ProductListItem from '../components/ProductListItem';
 import HeroBanner from '../components/HeroBanner';
 import TopDeals from '../components/TopDeals';
 
@@ -79,6 +80,12 @@ const ProductListingPage = () => {
         else if (range === 'Over ₹10,000') { setMinPrice(10000); setMaxPrice(Infinity); }
     };
 
+    const [sortBy, setSortBy] = useState('Popularity');
+
+    const handleSortChange = (sortType) => {
+        setSortBy(sortType);
+    };
+
     const filteredProducts = products.filter(product => {
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category);
         const priceMatch = product.price >= minPrice && product.price <= maxPrice;
@@ -99,6 +106,16 @@ const ProductListingPage = () => {
             isCategorySearch;
 
         return categoryMatch && priceMatch && searchMatch && ratingMatch && discountMatch;
+    }).sort((a, b) => {
+        if (sortBy === 'Price -- Low to High') {
+            return a.price - b.price;
+        } else if (sortBy === 'Price -- High to Low') {
+            return b.price - a.price;
+        } else if (sortBy === 'Newest First') {
+            // Assuming higher ID means newer, or use created_at if available
+            return b.id - a.id; 
+        }
+        return 0; // Popularity (default order)
     });
 
     if (loading) {
@@ -129,29 +146,30 @@ const ProductListingPage = () => {
         );
     }
 
+    const isSearchActive = searchParams.get('search');
+
     return (
         <div className="flex flex-col">
-            {/* Hero Banner */}
-            <HeroBanner />
+            {/* Hero Banner & Top Deals - Only show if NO search query */}
+            {!isSearchActive && (
+                <>
+                    <HeroBanner />
+                    <div className="max-w-screen-2xl mx-auto px-4 py-4">
+                        <TopDeals />
+                    </div>
+                </>
+            )}
 
-
-
-            {/* Top Deals Section */}
-            <div className="max-w-screen-2xl mx-auto px-4 py-4">
-                <TopDeals />
-            </div>
-
-            {/* Main Product Section */}
-            <div className="max-w-screen-2xl mx-auto px-4 py-4">
+            <div className={isSearchActive ? "w-full bg-white min-h-screen" : "w-full max-w-screen-2xl mx-auto px-4 py-4"}>
                 <div className="flex gap-4">
                     {/* Sidebar Filters */}
-                    <div className="w-64 bg-white shadow-sm flex-shrink-0 hidden lg:block">
-                        <div className="p-4 border-b">
+                    <div className="w-64 bg-white shadow-sm flex-shrink-0 hidden lg:block border-r border-gray-100 h-full">
+                        <div className="p-4 border-b border-gray-100">
                             <h2 className="font-bold text-gray-800">Filters</h2>
                         </div>
 
                         {/* Categories Filter */}
-                        <div className="p-4 border-b">
+                        <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Categories</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {['Mobiles', 'Fashion', 'Appliance', 'Electronics', 'Grocery'].map((cat) => (
@@ -169,7 +187,7 @@ const ProductListingPage = () => {
                         </div>
 
                         {/* Price Filter */}
-                        <div className="p-4 border-b">
+                        <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Price</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {['Under ₹500', '₹500 - ₹1,000', '₹1,000 - ₹5,000', '₹5,000 - ₹10,000', 'Over ₹10,000'].map((price) => (
@@ -188,7 +206,7 @@ const ProductListingPage = () => {
                         </div>
 
                         {/* Rating Filter */}
-                        <div className="p-4 border-b">
+                        <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Customer Ratings</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {[4, 3, 2, 1].map((rating) => (
@@ -232,32 +250,47 @@ const ProductListingPage = () => {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="flex-1 bg-white shadow-sm">
-                        <div className="p-4 border-b">
+                    <div className={`flex-1 w-full ${isSearchActive ? 'bg-white' : 'bg-white shadow-sm'}`}>
+                        <div className="p-4 ">
                             <div className="flex items-center justify-between">
                                 <div className="text-sm">
-                                    <span className="font-bold text-gray-800">All Products</span>
+                                    <span className="font-bold text-gray-800">
+                                        {isSearchActive ? `Showing results for "${searchParams.get('search')}"` : 'All Products'}
+                                    </span>
                                     <span className="text-gray-text ml-2">(Showing 1-{filteredProducts.length} products)</span>
                                 </div>
                             </div>
                             {/* Sort Options */}
-                            <div className="flex gap-6 text-sm mt-3 pt-3 border-t">
+                            <div className="flex gap-6 text-sm mt-3 pt-3">
                                 <span className="font-medium text-gray-600">Sort By</span>
-                                <span className="cursor-pointer text-primary font-medium border-b-2 border-primary pb-1">Popularity</span>
-                                <span className="cursor-pointer text-gray-600 hover:text-primary">Price -- Low to High</span>
-                                <span className="cursor-pointer text-gray-600 hover:text-primary">Price -- High to Low</span>
-                                <span className="cursor-pointer text-gray-600 hover:text-primary">Newest First</span>
+                                {['Popularity', 'Price -- Low to High', 'Price -- High to Low', 'Newest First'].map((option) => (
+                                    <span 
+                                        key={option}
+                                        className={`cursor-pointer font-medium pb-1 ${
+                                            sortBy === option 
+                                            ? 'text-primary border-b-2 border-primary' 
+                                            : 'text-gray-600 hover:text-primary'
+                                        }`}
+                                        onClick={() => handleSortChange(option)}
+                                    >
+                                        {option}
+                                    </span>
+                                ))}
                             </div>
                         </div>
 
-                        {products.length === 0 ? (
+                        {filteredProducts.length === 0 ? (
                              <div className="p-8 text-center text-gray-500">
                                 No products found. Please try different filters.
                              </div>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+                            <div className={isSearchActive ? "flex flex-col" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"}>
                                 {filteredProducts.map(product => (
-                                    <ProductCard key={product.id} product={product} />
+                                    isSearchActive ? (
+                                        <ProductListItem key={product.id} product={product} />
+                                    ) : (
+                                        <ProductCard key={product.id} product={product} />
+                                    )
                                 ))}
                             </div>
                         )}

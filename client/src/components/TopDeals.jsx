@@ -13,7 +13,7 @@ const TopDeals = () => {
                 // sort by discount percentage to show "Top Deals"
                 const topDeals = data
                     .sort((a, b) => b.discount_percentage - a.discount_percentage)
-                    .slice(0, 10);
+                    .slice(0, 6);
                     
                 setProducts(topDeals);
                 setLoading(false);
@@ -41,21 +41,19 @@ const TopDeals = () => {
 
     return (
         <div className="bg-white shadow-sm rounded-sm">
-            <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center justify-between p-4">
                 <h2 className="text-xl font-bold text-gray-800">Top Deals</h2>
-                <Link to="/" className="bg-primary text-white px-4 py-1.5 text-sm font-medium rounded-sm hover:bg-blue-600">
-                    VIEW ALL
-                </Link>
+                
             </div>
 
-            <div className="flex overflow-x-auto scrollbar-hide p-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 p-4">
                 {products.map((product) => (
                     <Link
                         key={product.id}
                         to={`/product/${product.id}`}
-                        className="flex-shrink-0 w-44 group"
+                        className="group"
                     >
-                        <div className="bg-gray-50 rounded-lg p-4 h-36 flex items-center justify-center group-hover:shadow-md transition-shadow border border-gray-100">
+                        <div className="bg-white rounded-lg p-4 h-36 flex items-center justify-center group-hover:shadow-md transition-shadow border border-gray-100 relative">
                             <img
                                 src={product.image_url}
                                 alt={product.title}

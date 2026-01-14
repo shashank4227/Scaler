@@ -1,9 +1,14 @@
-import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 
 const OrderConfirmedPage = () => {
     const location = useLocation();
-    const orderId = location.state?.orderId || 'OD' + Math.floor(Math.random() * 1000000000);
+    const navigate = useNavigate();
+    const orderId = location.state?.orderId || 'ORDER123456789';
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#f1f3f6] flex items-center justify-center p-4">
@@ -27,12 +32,7 @@ const OrderConfirmedPage = () => {
                         <p className="font-bold font-mono text-lg text-primary">{orderId}</p>
                     </div>
 
-                    <div className="flex items-center justify-center gap-2 text-sm text-gray-600 mb-8">
-                        <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                        </svg>
-                        You'll receive a confirmation email shortly.
-                    </div>
+
 
                     <div className="flex gap-4">
                         <Link
@@ -41,11 +41,7 @@ const OrderConfirmedPage = () => {
                         >
                             Continue Shopping
                         </Link>
-                        <button
-                            className="flex-1 border-2 border-primary text-primary font-bold py-3 rounded hover:bg-blue-50 transition-colors"
-                        >
-                            Track Order
-                        </button>
+
                     </div>
                 </div>
 

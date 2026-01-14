@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './index.css'
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
@@ -13,27 +13,39 @@ import OrderConfirmedPage from './pages/OrderConfirmedPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 
+const Layout = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isSearchActive = searchParams.has('search');
+  const isProductPage = location.pathname.startsWith('/product/');
+
+  return (
+    <div className="min-h-screen bg-[#f1f3f6] flex flex-col">
+      <Header />
+      {/* Show CategoryNav ONLY on Landing Page (Home) and when no search is active */}
+      {(location.pathname === '/' && !isSearchActive) && <CategoryNav />}
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<ProductListingPage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-confirmed" element={<OrderConfirmedPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
-          <div className="min-h-screen bg-[#f1f3f6] flex flex-col">
-            <Header />
-            <CategoryNav />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<ProductListingPage />} />
-                <Route path="/product/:id" element={<ProductDetailPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/order-confirmed" element={<OrderConfirmedPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <Layout />
         </Router>
       </CartProvider>
     </AuthProvider>

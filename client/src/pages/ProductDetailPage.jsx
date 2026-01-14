@@ -11,6 +11,7 @@ const ProductDetailPage = () => {
     const [selectedImage, setSelectedImage] = useState('');
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchProduct = async () => {
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`);
@@ -19,7 +20,7 @@ const ProductDetailPage = () => {
                 const transformedProduct = {
                     ...data,
                     image_url: data.image_url, 
-                    images: [data.image_url, data.image_url, data.image_url], // duplicating for thumbnail demo
+                    images: [data.image_url], // Only use the actual image
                     rating: parseFloat(data.rating),
                     discountPercentage: parseInt(data.discount_percentage),
                     price: parseFloat(data.price),
@@ -60,7 +61,7 @@ const ProductDetailPage = () => {
                                 {product.images?.map((img, idx) => (
                                     <div
                                         key={idx}
-                                        className={`w-16 h-16 border rounded p-1 cursor-pointer overflow-hidden ${selectedImage === img ? 'border-primary' : 'border-gray-200'}`}
+                                        className={`w-16 h-16 border rounded p-1 cursor-pointer overflow-hidden ${selectedImage === img ? 'border-primary' : 'border-gray-100'}`}
                                         onMouseEnter={() => setSelectedImage(img)}
                                     >
                                         <img src={img} alt="" className="w-full h-full object-contain" />
@@ -68,13 +69,13 @@ const ProductDetailPage = () => {
                                 ))}
                             </div>
                             {/* Main Image */}
-                            <div className="flex-1 border rounded-sm relative p-4 flex items-center justify-center bg-white h-[450px]">
+                            <div className="flex-1 border border-gray-100 rounded-sm relative p-4 flex items-center justify-center bg-white h-[450px]">
                                 <img
                                     src={selectedImage}
                                     alt={product.title}
                                     className="max-w-full max-h-full object-contain"
                                 />
-                                <div className="absolute top-4 right-4 bg-white rounded-full p-2 shadow border text-gray-300 hover:text-red-500 cursor-pointer">
+                                <div className="absolute top-4 right-4 bg-white rounded-full p-2 shadow border border-gray-100 text-gray-300 hover:text-red-500 cursor-pointer">
                                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                     </svg>
@@ -85,15 +86,18 @@ const ProductDetailPage = () => {
                         {/* Action Buttons */}
                         <div className="flex gap-3 mt-6">
                             <button
-                                onClick={() => addToCart({
-                                    id: product.id,
-                                    title: product.title,
-                                    image_url: product.image_url,
-                                    price: Math.round(product.price * (1 - product.discountPercentage / 100)),
-                                    original_price: product.price,
-                                    discount_percentage: product.discountPercentage,
-                                    seller: "RetailNet"
-                                })}
+                                onClick={() => {
+                                    addToCart({
+                                        id: product.id,
+                                        title: product.title,
+                                        image_url: product.image_url,
+                                        price: Math.round(product.price * (1 - product.discountPercentage / 100)),
+                                        original_price: product.price,
+                                        discount_percentage: product.discountPercentage,
+                                        seller: "RetailNet"
+                                    });
+                                    navigate('/cart');
+                                }}
                                 className="flex-1 bg-[#ff9f00] text-white font-bold py-4 uppercase text-center shadow hover:shadow-lg transition-shadow flex items-center justify-center gap-2 rounded-sm"
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,8 +212,8 @@ const ProductDetailPage = () => {
                             </div>
                         </div>
                         
-                        <div className="border rounded-sm">
-                            <div className="p-4 border-b">
+                        <div className="border border-gray-100 rounded-sm">
+                            <div className="p-4 border-b border-gray-100">
                                 <h3 className="font-medium text-lg">Product Description</h3>
                             </div>
                             <div className="p-4">
