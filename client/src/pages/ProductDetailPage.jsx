@@ -20,7 +20,7 @@ const ProductDetailPage = () => {
                 const transformedProduct = {
                     ...data,
                     image_url: data.image_url, 
-                    images: [data.image_url], // Only use the actual image
+                    images: data.images || [data.image_url],
                     rating: parseFloat(data.rating),
                     discountPercentage: parseInt(data.discount_percentage),
                     price: parseFloat(data.price),
@@ -52,16 +52,16 @@ const ProductDetailPage = () => {
     return (
         <div className="bg-white min-h-screen pb-10">
             <div className="container mx-auto px-4 py-6">
-                <div className="flex flex-col md:flex-row gap-8 bg-white p-4">
+                <div className="flex flex-col lg:flex-row gap-8 bg-white p-4">
                     {/* Left: Images */}
-                    <div className="w-full md:w-5/12 sticky top-20 h-fit">
-                        <div className="flex gap-4">
+                    <div className="w-full lg:w-5/12 sticky top-20 h-fit">
+                        <div className="flex flex-col-reverse lg:flex-row gap-4">
                             {/* Thumbnails */}
-                            <div className="w-16 flex flex-col gap-2">
+                            <div className="flex lg:flex-col gap-2 overflow-auto scrollbar-hide lg:w-20 lg:h-[450px] py-1 px-1">
                                 {product.images?.map((img, idx) => (
                                     <div
                                         key={idx}
-                                        className={`w-16 h-16 border rounded p-1 cursor-pointer overflow-hidden ${selectedImage === img ? 'border-primary' : 'border-gray-100'}`}
+                                        className={`w-16 h-16 min-w-[4rem] border rounded p-1 cursor-pointer overflow-hidden flex-shrink-0 ${selectedImage === img ? 'border-primary' : 'border-gray-100'}`}
                                         onMouseEnter={() => setSelectedImage(img)}
                                     >
                                         <img src={img} alt="" className="w-full h-full object-contain" />
@@ -86,44 +86,50 @@ const ProductDetailPage = () => {
                         {/* Action Buttons */}
                         <div className="flex gap-3 mt-6">
                             <button
+                                disabled={product.stock_quantity === 0}
                                 onClick={() => {
-                                    addToCart({
-                                        id: product.id,
-                                        title: product.title,
-                                        image_url: product.image_url,
-                                        price: Math.round(product.price * (1 - product.discountPercentage / 100)),
-                                        original_price: product.price,
-                                        discount_percentage: product.discountPercentage,
-                                        seller: "RetailNet"
-                                    });
-                                    navigate('/cart');
+                                    if(product.stock_quantity > 0) {
+                                        addToCart({
+                                            id: product.id,
+                                            title: product.title,
+                                            image_url: product.image_url,
+                                            price: Math.round(product.price * (1 - product.discountPercentage / 100)),
+                                            original_price: product.price,
+                                            discount_percentage: product.discountPercentage,
+                                            seller: "RetailNet"
+                                        });
+                                        navigate('/cart');
+                                    }
                                 }}
-                                className="flex-1 bg-[#ff9f00] text-white font-bold py-4 uppercase text-center shadow hover:shadow-lg transition-shadow flex items-center justify-center gap-2 rounded-sm"
+                                className={`flex-1 font-bold py-4 uppercase text-center shadow transition-shadow flex items-center justify-center gap-2 rounded-sm ${product.stock_quantity === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#ff9f00] text-white hover:shadow-lg'}`}
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
-                                ADD TO CART
+                                {product.stock_quantity === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
                             </button>
                             <button 
+                                disabled={product.stock_quantity === 0}
                                 onClick={() => {
-                                    addToCart({
-                                        id: product.id,
-                                        title: product.title,
-                                        image_url: product.image_url,
-                                        price: Math.round(product.price * (1 - product.discountPercentage / 100)),
-                                        original_price: product.price,
-                                        discount_percentage: product.discountPercentage,
-                                        seller: "RetailNet"
-                                    });
-                                    navigate('/cart');
+                                    if(product.stock_quantity > 0) {
+                                        addToCart({
+                                            id: product.id,
+                                            title: product.title,
+                                            image_url: product.image_url,
+                                            price: Math.round(product.price * (1 - product.discountPercentage / 100)),
+                                            original_price: product.price,
+                                            discount_percentage: product.discountPercentage,
+                                            seller: "RetailNet"
+                                        });
+                                        navigate('/cart');
+                                    }
                                 }}
-                                className="flex-1 bg-[#fb641b] text-white font-bold py-4 uppercase shadow hover:shadow-lg transition-shadow flex items-center justify-center gap-2 rounded-sm"
+                                className={`flex-1 font-bold py-4 uppercase shadow transition-shadow flex items-center justify-center gap-2 rounded-sm ${product.stock_quantity === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#fb641b] text-white hover:shadow-lg'}`}
                             >
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
                                 </svg>
-                                BUY NOW
+                                {product.stock_quantity === 0 ? 'OUT OF STOCK' : 'BUY NOW'}
                             </button>
                         </div>
                     </div>
@@ -144,6 +150,22 @@ const ProductDetailPage = () => {
                             </span>
                             <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="Assured" className="h-5 ml-2" />
                         </div>
+
+                        {/* Stock Status Indicator */}
+                        {product.stock_quantity === 0 ? (
+                            <div className="text-red-600 font-semibold text-sm mb-2 bg-red-50 inline-block px-2 py-1 rounded">
+                                Out of Stock
+                            </div>
+                        ) : product.stock_quantity < 10 ? (
+                            <div className="text-orange-600 font-semibold text-sm mb-2 animate-pulse">
+                                Hurry, Only {product.stock_quantity} left!
+                            </div>
+                        ) : (
+                            <div className="text-green-600 font-semibold text-sm mb-2">
+                                In Stock
+                            </div>
+                        )}
+
 
                         {/* Price */}
                         <div className="flex items-baseline gap-3 mb-3">

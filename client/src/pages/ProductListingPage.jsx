@@ -162,15 +162,28 @@ const ProductListingPage = () => {
 
             <div className={isSearchActive ? "w-full bg-white min-h-screen" : "w-full max-w-screen-2xl mx-auto px-4 py-4"}>
                 <div className="flex gap-4">
-                    {/* Sidebar Filters */}
+                    {/* Mobile Filter Toggle */}
+                    <div className="lg:hidden mb-4">
+                        <button 
+                            className="w-full bg-white border border-gray-300 py-2 font-medium text-gray-700 rounded-sm shadow-sm flex items-center justify-center gap-2"
+                            onClick={() => document.getElementById('mobile-filters').classList.toggle('hidden')}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                            </svg>
+                            Filters
+                        </button>
+                    </div>
+
+                    {/* Sidebar Filters (Desktop) */}
                     <div className="w-64 bg-white shadow-sm flex-shrink-0 hidden lg:block border-r border-gray-100 h-full">
+                         {/* ... Desktop Sidebar Content same as original ... */}
                         <div className="p-4 border-b border-gray-100">
                             <h2 className="font-bold text-gray-800">Filters</h2>
                         </div>
-
-                        {/* Categories Filter */}
+                        {/* Categories */}
                         <div className="p-4 border-b border-gray-100">
-                            <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Categories</h3>
+                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Categories</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {['Mobiles', 'Fashion', 'Appliance', 'Electronics', 'Grocery'].map((cat) => (
                                     <label key={cat} className="flex items-center gap-2 cursor-pointer hover:text-primary">
@@ -185,9 +198,8 @@ const ProductListingPage = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Price Filter */}
-                        <div className="p-4 border-b border-gray-100">
+                         {/* Price */}
+                         <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Price</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {['Under ₹500', '₹500 - ₹1,000', '₹1,000 - ₹5,000', '₹5,000 - ₹10,000', 'Over ₹10,000'].map((price) => (
@@ -204,9 +216,8 @@ const ProductListingPage = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Rating Filter */}
-                        <div className="p-4 border-b border-gray-100">
+                         {/* Rating */}
+                         <div className="p-4 border-b border-gray-100">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Customer Ratings</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
                                 {[4, 3, 2, 1].map((rating) => (
@@ -228,8 +239,7 @@ const ProductListingPage = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Discount Filter */}
+                         {/* Discount */}
                         <div className="p-4">
                             <h3 className="text-xs font-bold text-gray-600 uppercase mb-3">Discount</h3>
                             <div className="flex flex-col gap-2 text-sm text-gray-700">
@@ -249,6 +259,40 @@ const ProductListingPage = () => {
                         </div>
                     </div>
 
+                    {/* Mobile Filters Overlay (Reusable logic similar to sidebar) */}
+                    <div id="mobile-filters" className="hidden fixed inset-0 z-50 bg-black bg-opacity-50 lg:hidden">
+                        <div className="bg-white w-3/4 h-full overflow-y-auto p-4 absolute right-0 top-0 shadow-lg animate-slide-in-right">
+                             <div className="flex justify-between items-center mb-4 border-b pb-2">
+                                <h2 className="font-bold text-lg">Filters</h2>
+                                <button onClick={() => document.getElementById('mobile-filters').classList.add('hidden')} className="text-gray-500 font-bold p-2">✕</button>
+                             </div>
+                             
+                             {/* Re-using same filter blocks for Mobile (Duplicate for simplicity now, ideally componentize) */}
+                             {/* Categories */}
+                             <div className="mb-6">
+                                <h3 className="font-bold text-gray-600 mb-2">Categories</h3>
+                                <div className="flex flex-col gap-2">
+                                    {['Mobiles', 'Fashion', 'Appliance', 'Electronics', 'Grocery'].map((cat) => (
+                                        <label key={cat} className="flex items-center gap-2">
+                                            <input type="checkbox" className="w-4 h-4" checked={selectedCategories.includes(cat)} onChange={() => handleCategoryChange(cat)} />
+                                            <span>{cat}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                             </div>
+
+                             {/* Other filters can be added here similarly if needed, currently keeping basic category for mobile speed */}
+                             <div>
+                                <button 
+                                    className="w-full bg-primary text-white py-2 rounded font-bold"
+                                    onClick={() => document.getElementById('mobile-filters').classList.add('hidden')}
+                                >
+                                    Apply
+                                </button>
+                             </div>
+                        </div>
+                    </div>
+
                     {/* Product Grid */}
                     <div className={`flex-1 w-full ${isSearchActive ? 'bg-white' : 'bg-white shadow-sm'}`}>
                         <div className="p-4 ">
@@ -261,7 +305,7 @@ const ProductListingPage = () => {
                                 </div>
                             </div>
                             {/* Sort Options */}
-                            <div className="flex gap-6 text-sm mt-3 pt-3">
+                            <div className="flex gap-6 text-sm mt-3 pt-3 overflow-x-auto whitespace-nowrap scrollbar-hide">
                                 <span className="font-medium text-gray-600">Sort By</span>
                                 {['Popularity', 'Price -- Low to High', 'Price -- High to Low', 'Newest First'].map((option) => (
                                     <span 
@@ -284,7 +328,7 @@ const ProductListingPage = () => {
                                 No products found. Please try different filters.
                              </div>
                         ) : (
-                            <div className={isSearchActive ? "flex flex-col" : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"}>
+                            <div className={isSearchActive ? "flex flex-col" : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-4"}>
                                 {filteredProducts.map(product => (
                                     isSearchActive ? (
                                         <ProductListItem key={product.id} product={product} />

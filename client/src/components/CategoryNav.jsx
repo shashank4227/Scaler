@@ -51,8 +51,8 @@ const categories = [
 const CategoryNav = () => {
     return (
         <nav className="bg-white shadow-sm">
-            <div className="max-w-screen-2xl mx-auto justify-center">
-                <ul className="flex items-center justify-center gap-4 py-2 px-4 overflow-x-auto scrollbar-hide">
+            <div className="max-w-screen-2xl mx-auto">
+                <ul className="flex items-center lg:justify-center justify-start gap-4 py-2 px-4 overflow-x-auto scrollbar-hide w-full whitespace-nowrap">
                     {categories.map((category, index) => (
                         <li key={index} className="relative flex-shrink-0">
                             <Link

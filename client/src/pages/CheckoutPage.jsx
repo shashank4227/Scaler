@@ -175,7 +175,7 @@ const CheckoutPage = () => {
                         >
                             {step === 2 ? (
                                 <form onSubmit={handleAddressSubmit} className="max-w-xl space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <input
                                             type="text"
                                             placeholder="Name"
@@ -193,7 +193,7 @@ const CheckoutPage = () => {
                                             onChange={e => setAddress(prev => ({ ...prev, phone: e.target.value }))}
                                         />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <input
                                             type="text"
                                             placeholder="Pincode"
@@ -218,7 +218,7 @@ const CheckoutPage = () => {
                                         value={address.address}
                                         onChange={e => setAddress(prev => ({ ...prev, address: e.target.value }))}
                                     />
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <input
                                             type="text"
                                             placeholder="City/District/Town"

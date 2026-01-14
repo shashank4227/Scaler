@@ -50,15 +50,18 @@ const CartPage = () => {
                         {/* Cart Items */}
                         <div className="bg-white shadow-sm">
                             {cartItems.map((item, index) => (
-                                <div key={item.id} className={`p-4 flex gap-6 ${index < cartItems.length - 1 ? 'border-b' : ''}`}>
-                                    {/* Image */}
-                                    <div className="w-28 h-28 flex-shrink-0">
-                                        <img src={item.image_url} alt={item.title} className="w-full h-full object-contain" />
+                                <div key={item.id} className={`p-4 flex flex-col sm:flex-row gap-6 ${index < cartItems.length - 1 ? 'border-b' : ''}`}>
+                                    <div className="flex gap-4">
+                                        {/* Image */}
+                                        <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+                                            <img src={item.image_url} alt={item.title} className="w-full h-full object-contain" />
+                                        </div>
+                                         {/* Mobile Details (Title/Seller) if needed, but flex-1 handles it below */}
                                     </div>
 
                                     {/* Details */}
                                     <div className="flex-1">
-                                        <Link to={`/product/${item.id}`} className="font-medium text-gray-800 hover:text-primary block mb-1">
+                                        <Link to={`/product/${item.id}`} className="font-medium text-gray-800 hover:text-primary block mb-1 line-clamp-2">
                                             {item.title}
                                         </Link>
                                         <p className="text-xs text-gray-500 mb-2">Seller: {item.seller}</p>
@@ -93,12 +96,9 @@ const CartPage = () => {
                                                     +
                                                 </button>
                                             </div>
-                                            <button className="text-sm font-semibold text-gray-700 hover:text-primary uppercase">
-                                                Save for Later
-                                            </button>
-                                            <button
-                                                onClick={() => removeFromCart(item.id)}
-                                                className="text-sm font-semibold text-gray-700 hover:text-red-500 uppercase"
+                                            <button 
+                                                 onClick={() => removeFromCart(item.id)}
+                                                 className="text-sm font-semibold text-gray-700 hover:text-red-500 uppercase ml-auto sm:ml-0"
                                             >
                                                 Remove
                                             </button>
@@ -106,7 +106,7 @@ const CartPage = () => {
                                     </div>
 
                                     {/* Delivery */}
-                                    <div className="text-right text-sm text-gray-500 w-40">
+                                    <div className="text-left sm:text-right text-sm text-gray-500 sm:w-40 border-t sm:border-0 pt-2 sm:pt-0 mt-2 sm:mt-0">
                                         <p>Delivery by Tomorrow</p>
                                         <p className="text-green-600 font-medium">FREE</p>
                                     </div>
