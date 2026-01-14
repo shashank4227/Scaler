@@ -134,13 +134,15 @@ const ProductListingPage = () => {
             {/* Hero Banner */}
             <HeroBanner />
 
+
+
             {/* Top Deals Section */}
-            <div className="container mx-auto px-4 py-4">
+            <div className="max-w-screen-2xl mx-auto px-4 py-4">
                 <TopDeals />
             </div>
 
             {/* Main Product Section */}
-            <div className="container mx-auto px-4 py-4">
+            <div className="max-w-screen-2xl mx-auto px-4 py-4">
                 <div className="flex gap-4">
                     {/* Sidebar Filters */}
                     <div className="w-64 bg-white shadow-sm flex-shrink-0 hidden lg:block">

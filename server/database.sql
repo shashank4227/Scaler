@@ -6,6 +6,7 @@
 DROP TABLE IF EXISTS product_images;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 
@@ -45,6 +46,14 @@ CREATE TABLE IF NOT EXISTS orders (
     total_amount DECIMAL(10, 2) NOT NULL,
     status VARCHAR(50) DEFAULT 'Placed',
     shipping_address JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

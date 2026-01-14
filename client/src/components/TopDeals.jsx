@@ -26,7 +26,7 @@ const TopDeals = () => {
 
     if (loading) {
         return (
-            <div className="bg-white p-4 shadow-sm">
+            <div className="bg-white p-4 shadow-sm rounded-sm">
                 <div className="animate-pulse flex gap-4 overflow-hidden">
                     {[...Array(6)].map((_, i) => (
                         <div key={i} className="flex-shrink-0 w-40">
@@ -40,7 +40,7 @@ const TopDeals = () => {
     }
 
     return (
-        <div className="bg-white shadow-sm">
+        <div className="bg-white shadow-sm rounded-sm">
             <div className="flex items-center justify-between p-4 border-b">
                 <h2 className="text-xl font-bold text-gray-800">Top Deals</h2>
                 <Link to="/" className="bg-primary text-white px-4 py-1.5 text-sm font-medium rounded-sm hover:bg-blue-600">
@@ -55,7 +55,7 @@ const TopDeals = () => {
                         to={`/product/${product.id}`}
                         className="flex-shrink-0 w-44 group"
                     >
-                        <div className="bg-gray-50 rounded-lg p-4 h-36 flex items-center justify-center group-hover:shadow-md transition-shadow">
+                        <div className="bg-gray-50 rounded-lg p-4 h-36 flex items-center justify-center group-hover:shadow-md transition-shadow border border-gray-100">
                             <img
                                 src={product.image_url}
                                 alt={product.title}

@@ -2,37 +2,48 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const categories = [
+   
     {
-        name: 'Mobiles',
-        image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=150&q=80',
+        name: 'Mobiles & Tablets',
+        image: 'https://img.icons8.com/fluency/96/smartphone-tablet.png',
         link: '/?search=Mobiles'
     },
     {
         name: 'Fashion',
-        image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=150&q=80',
+        image: 'https://img.icons8.com/color/96/hanger.png',
         link: '/?search=Fashion',
         hasDropdown: true
     },
     {
         name: 'Electronics',
-        image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=150&q=80',
+        image: 'https://img.icons8.com/color/96/electronics.png',
         link: '/?search=Electronics',
         hasDropdown: true
     },
     {
-        name: 'Home',
-        image: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=150&q=80',
+        name: 'Home & Furniture',
+        image: 'https://img.icons8.com/fluency/96/sofa.png',
         link: '/?search=Home',
         hasDropdown: true
     },
     {
         name: 'Appliances',
-        image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=150&q=80',
+        image: 'https://img.icons8.com/fluency/96/appliances.png',
         link: '/?search=Appliance'
     },
     {
+        name: 'Flight Bookings',
+        image: 'https://img.icons8.com/fluency/96/airplane-take-off.png',
+        link: '/?search=Flight'
+    },
+    {
+        name: 'Beauty, Food & More',
+        image: 'https://img.icons8.com/fluency/96/shopping-basket.png',
+        link: '/?search=Beauty'
+    },
+    {
         name: 'Grocery',
-        image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=150&q=80',
+        image: 'https://img.icons8.com/fluency/96/grocery-shelf.png',
         link: '/?search=Grocery'
     },
 ];
@@ -40,10 +51,10 @@ const categories = [
 const CategoryNav = () => {
     return (
         <nav className="bg-white shadow-sm">
-            <div className="container mx-auto">
-                <ul className="flex items-center justify-between py-2 px-4">
+            <div className="max-w-screen-2xl mx-auto justify-center">
+                <ul className="flex items-center justify-center gap-4 py-2 px-4 overflow-x-auto scrollbar-hide">
                     {categories.map((category, index) => (
-                        <li key={index} className="relative">
+                        <li key={index} className="relative flex-shrink-0">
                             <Link
                                 to={category.link}
                                 className="flex flex-col items-center gap-1 text-gray-700 hover:text-primary transition-colors group px-2"
