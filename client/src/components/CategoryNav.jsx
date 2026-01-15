@@ -32,11 +32,6 @@ const categories = [
         link: '/?search=Appliance'
     },
     {
-        name: 'Flight Bookings',
-        image: 'https://img.icons8.com/fluency/96/airplane-take-off.png',
-        link: '/?search=Flight'
-    },
-    {
         name: 'Beauty, Food & More',
         image: 'https://img.icons8.com/fluency/96/shopping-basket.png',
         link: '/?search=Beauty'
