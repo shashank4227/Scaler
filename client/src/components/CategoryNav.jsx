@@ -57,19 +57,9 @@ const CategoryNav = () => {
                                         alt={category.name}
                                         className="w-16 h-16 object-contain"
                                     />
-                                    {category.badge && (
-                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded">
-                                            {category.badge}
-                                        </span>
-                                    )}
                                 </div>
                                 <span className="text-xs font-medium group-hover:text-primary whitespace-nowrap flex items-center gap-0.5">
                                     {category.name}
-                                    {category.hasDropdown && (
-                                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    )}
                                 </span>
                             </Link>
                         </li>
