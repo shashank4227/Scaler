@@ -12,19 +12,16 @@ const categories = [
         name: 'Fashion',
         image: 'https://img.icons8.com/color/96/hanger.png',
         link: '/?search=Fashion',
-        hasDropdown: true
     },
     {
         name: 'Electronics',
         image: 'https://img.icons8.com/color/96/electronics.png',
         link: '/?search=Electronics',
-        hasDropdown: true
     },
     {
         name: 'Home & Furniture',
         image: 'https://img.icons8.com/fluency/96/sofa.png',
         link: '/?search=Home',
-        hasDropdown: true
     },
     {
         name: 'Appliances',
