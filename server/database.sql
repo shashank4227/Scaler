@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS categories (
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
+    highlights TEXT,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
     original_price DECIMAL(10, 2),
@@ -73,14 +74,14 @@ INSERT INTO categories (name) VALUES
 ('Appliance'), ('Beauty & Personal Care'), ('Grocery');
 
 INSERT INTO products 
-(title, description, price, original_price, discount_percentage, rating, review_count, image_url, category_id, is_assured, stock_quantity)
+(title, highlights, description, price, original_price, discount_percentage, rating, review_count, image_url, category_id, is_assured, stock_quantity)
 VALUES
 
 -- Mobiles
-('Apple iPhone 15 (Black, 128 GB)', 'Experience the iPhone 15... 48MP Main camera...', 65999, 79900, 17, 4.6, 12500,
+('Apple iPhone 15 (Black, 128 GB)', '128 GB ROM | 15.49 cm (6.1 inch) Super Retina XDR Display | 48MP + 12MP | 12MP Front Camera | A16 Bionic Chip Processor', 'Experience the iPhone 15...', 65999, 79900, 17, 4.6, 12500,
 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80', 1, TRUE, 50),
 
-('Samsung Galaxy F14 5G (GOAT Green, 128 GB)', '6000mAh Battery. Ideal for gaming.', 11990, 18490, 35, 4.2, 8900,
+('Samsung Galaxy F14 5G (GOAT Green, 128 GB)', '6 GB RAM | 128 GB ROM | Expandable Upto 1 TB | 16.76 cm (6.6 inch) Full HD+ Display | 50MP + 2MP | 13MP Front Camera | 6000 mAh Battery | Exynos 1330, Octa Core Processor', '6000mAh Battery. Ideal for gaming.', 11990, 18490, 35, 4.2, 8900,
 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80', 1, TRUE, 100),
 
 ('POCO C51 (Royal Blue, 64 GB)', 'Big 5000 mAh Battery, Large Display.', 5999, 9999, 40, 4.0, 5600,

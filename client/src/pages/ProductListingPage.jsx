@@ -32,7 +32,8 @@ const ProductListingPage = () => {
                     discount_percentage: parseInt(product.discount_percentage),
                     is_assured: Boolean(product.is_assured),
                     category: product.category_name,
-                    brand: 'Brand' 
+                    brand: 'Brand',
+                    highlights: product.highlights  
                 }));
                 setProducts(transformedProducts);
                 setLoading(false);

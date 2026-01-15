@@ -3,32 +3,9 @@ import { Link } from 'react-router-dom';
 
 const ProductListItem = ({ product }) => {
     // Mock features based on category (since we don't have them in DB yet)
-    const getFeatures = (category) => {
-        if (category === 'Mobiles') {
-            return [
-                '4 GB RAM | 64 GB ROM | Expandable Upto 2 TB',
-                '17.12 cm (6.74 inch) HD+ Display',
-                '50MP + 2MP | 5MP Front Camera',
-                '6000 mAh Battery',
-                'T615 Processor'
-            ];
-        } else if (category === 'Electronics') {
-            return [
-                'Wireless Bluetooth Connectivity',
-                '30 Hours Battery Life',
-                'Fast Charging Support',
-                'Water Resistant (IPX4)'
-            ];
-        }
-        return [
-            'Genuine Quality Product',
-            '1 Year Warranty',
-            '7 Days Replacement Policy',
-            'Cash on Delivery Available'
-        ];
-    };
-
-    const features = getFeatures(product.category);
+    const features = product.highlights 
+        ? product.highlights.split(/[|\n,]/).map(s => s.trim()).filter(Boolean)
+        : ['No highlights available'];
 
     return (
         <Link 
