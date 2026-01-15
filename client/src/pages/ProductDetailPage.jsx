@@ -136,7 +136,7 @@ const ProductDetailPage = () => {
 
                     {/* Right: Details */}
                     <div className="w-full md:w-7/12 pl-4">
-                        <div className="text-gray-400 text-xs mb-2">Home {'>'} Electronics {'>'} {product.category_name || 'Mobiles'}</div>
+                        <div className="text-gray-400 text-xs mb-2">Home {'>'} {product.category_name || 'Mobiles'}</div>
                         
                         <h1 className="text-lg font-normal text-gray-800 mb-2">{product.title}</h1>
 
